@@ -1,0 +1,57 @@
+default_language_version:
+  python: python3
+
+  # NOTE: Update in pyproject.toml as well
+exclude: |
+  (?x)^(
+  __pycache__|
+  .+\/migrations\/.*|
+  \.venv
+  )
+
+repos:
+  - repo: https://github.com/psf/black
+    rev: 24.10.0
+    hooks:
+      - id: black
+
+  - repo: https://github.com/PyCQA/flake8
+    rev: 7.1.1
+    hooks:
+      - id: flake8
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: debug-statements
+      - id: trailing-whitespace
+
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.35.1
+    hooks:
+      - id: yamllint
+
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.19.0
+    hooks:
+      - id: pyupgrade
+        args: ["--py37-plus"]
+
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.3.0
+    hooks:
+      - id: codespell
+        additional_dependencies:
+          - tomli
+
+  - repo: local
+    hooks:
+      - id: django-check
+        name: Django Configuration Check
+        entry: python manage.py check
+        always_run: true
+        pass_filenames: false
+        language: system
+        types: [python]

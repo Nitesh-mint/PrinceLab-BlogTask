@@ -1,0 +1,151 @@
+{% load crispy_forms_tags %}
+
+<div class="container my-5">
+	<h2 class="mb-4">Comments <span class="text-muted fs-6">({{ comments|length }})</span></h2>
+
+	{% if user.is_authenticated %}
+	{% if not user_comment %}
+	<!-- Edit Comment Modal -->
+	<div class="modal fade" id="AddCommentModal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Add Your Comment</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+				<div class="modal-body">
+					<form method="POST" action="{% url 'post_comment' post.id %}">
+						{% csrf_token %}
+						{{ post_comment_form | crispy }}
+						<div class="mt-3 text-end">
+							<button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancel</button>
+							<button type="submit" class="btn btn-primary">Post Comment</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Comment Form for new users -->
+	<div class="card mb-4 shadow-sm">
+		<div class="card-body">
+			<h5 class="card-title mb-3">Add your comment</h5>
+			<form method="POST">
+				{% csrf_token %}
+				{{ post_comment | crispy }}
+				<button type="submit" class="btn btn-primary mt-3">Post Comment</button>
+			</form>
+			<button class="btn btn-outline-primary btn-sm" 
+				data-bs-toggle="modal" 
+				data-bs-target="#AddCommentModal">
+				<i class="fas fa-edit"></i> Add
+			</button>
+
+		</div>
+	</div>
+	{% endif %}
+	{% else %}
+	<div class="alert alert-info mb-4">
+		Please <a href="{% url 'login' %}">login</a> to leave a comment.
+	</div>
+	{% endif %}
+
+	{% if comments %}
+	<div class="comment-section">
+		<!-- User's own comment shown first -->
+		{% if user_comment %}
+		<div class="card mb-4 border-primary shadow-sm">
+			<div class="card-body">
+				<div class="d-flex justify-content-between align-items-center mb-2">
+					<div class="d-flex align-items-center">
+						<div class="rounded-circle bg-primary d-flex justify-content-center align-items-center text-white" 
+							style="width: 40px; height: 40px;">
+							{{ user_comment.user.username|make_list|first|upper }}
+						</div>
+						<div class="ms-3">
+							<h6 class="mb-0">{{ user_comment.user.username }} <span class="badge bg-primary ms-2">Your comment</span></h6>
+							<small class="text-muted">
+								{{ user_comment.created_at|date:"F j, Y, g:i a" }}
+							</small>
+						</div>
+					</div>
+					<div>
+						<button class="btn btn-outline-primary btn-sm" 
+							data-bs-toggle="modal" 
+							data-bs-target="#editCommentModal">
+							<i class="fas fa-edit"></i> Edit
+						</button>
+					</div>
+				</div>
+				<p class="card-text mb-0">{{ user_comment.content }}</p>
+			</div>
+		</div>
+
+		<!-- Edit Comment Modal -->
+		<div class="modal fade" id="editCommentModal" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Edit Your Comment</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+					</div>
+					<div class="modal-body">
+						<form method="POST" action="{% url 'edit_comment' post.id %}">
+							{% csrf_token %}
+							{{ post_comment_edit_form | crispy }}
+							<div class="mt-3 text-end">
+								<button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancel</button>
+								<button type="submit" class="btn btn-primary">Save Changes</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+
+		<!-- Other comments -->
+		{% for comment in other_comments %}
+		<div class="card mb-3 shadow-sm">
+			<div class="card-body">
+				<div class="d-flex justify-content-between align-items-center mb-2">
+					<div class="d-flex align-items-center">
+						<div class="rounded-circle bg-secondary d-flex justify-content-center align-items-center text-white" 
+							style="width: 40px; height: 40px;">
+							{{ comment.user.username|make_list|first|upper }}
+						</div>
+						<div class="ms-3">
+							<h6 class="mb-0">{{ comment.user.username }}</h6>
+							<small class="text-muted">
+								{{ comment.created_at|date:"F j, Y, g:i a" }}
+							</small>
+						</div>
+					</div>
+				</div>
+				<p class="card-text mb-0">{{ comment.content }}</p>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	{% else %}
+	<div class="alert alert-info">
+		No comments yet. Be the first to comment!
+	</div>
+	{% endif %}
+</div>
+
+<style>
+.comment-section {
+	max-width: 800px;
+	margin: 0 auto;
+}
+
+    .card {
+	    transition: transform 0.2s;
+    }
+
+    .card:hover {
+	    transform: translateY(-2px);
+    }
+</style>

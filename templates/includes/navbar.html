@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg sticky-top bg-white" style="min-height: 6rem;">
 	<div class="container">
-		<a class="navbar-brand fs-5" href="{% url 'home' %}">Simple Blog</a>
+		<a class="navbar-brand fs-5" href="{% url 'bloghome' %}">Simple Blog</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor04" aria-controls="navbarColor04" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
@@ -30,7 +30,7 @@
 						{% else %}
 						<a class="dropdown-item" href="{% url 'login' %}">Login</a>
 						<a class="dropdown-item" href="{% url 'signup' %}">Signup</a>
-						{% endif %} 
+						{% endif %}
 						<!-- <div class="dropdown-divider"></div>  -->
 						<!-- <a class="dropdown-item" href="#">Separated link</a> -->
 					</div>

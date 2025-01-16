@@ -3,10 +3,9 @@ from . import models
 
 
 admin.site.register(
-        [
-            models.Post,
-            models.Comment, 
-            models.PostLike,
-        ]
+    [
+        models.Post,
+        models.Comment,
+        models.PostLike,
+    ]
 )
-
