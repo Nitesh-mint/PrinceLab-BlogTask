@@ -1,17 +1,17 @@
 {% load static %}
-<div class="container pt-5">
+<div class="container pt-5" >
 	{% for post in posts %}
 	<div class="row m-1">
 		<div class="row d-flex">
 			<div class="col d-flex">
-				<div class="col-10 flex-shrink-5 border p-2 bg-body">
-					<a href="{{post.get_absolute_url}}" class="text-decoration-none text-black fw-bolder fs-5"><p class="poppin post-title-small">{{ post.title }}</p></a>
-					<p class="text-muted poppin text-truncate">{{ post.body| striptags | safe | slice:":80" }}</p>
-					<a href="{{post.get_absolute_url}}" class="text-decoration-none poppin"> <p class="text-success poppin">Read More <i class="fa-solid fa-arrow-right"></i> </p> </a>
+				<div class="col flex-shrink-5 border p-4 bg-body">
+					<a href="{{post.get_absolute_url}}" class="text-decoration-none text-black fw-bolder fs-5"><p class="post-title-small" style="font-family: 'poppins';">{{ post.title }}</p></a>
+					<p class="text-muted text-truncate" style="font-family: 'poppins';">{{ post.content| striptags | safe | slice:":80" }}</p>
+					<a href="{{post.get_absolute_url}}" class="text-decoration-none poppin"> <p class="text-success" style="font-family: 'poppins';">Read More <i class="fa-solid fa-arrow-right"></i> </p> </a>
 				</div>
 			</div>
-		</div> 
-	</div> 
+		</div>
+	</div>
 	{% endfor %}
 	<div  class="row d-flex justify-content-center">
 		<div class="col col-3 text-center">
@@ -34,5 +34,5 @@
 			</button>
 			{% endif %}
 		</div>
-	</div> 
+	</div>
 </div>

@@ -3,6 +3,9 @@
 {% block content %}
 <div class="container mt-5">
 	<div class="d-flex justify-content-center align-items-center">
+		<div id="alert" class="alert-animation">
+			{% include 'includes/alerts.html' %}
+        </div>
 		<div class="row col-10">
 			<div class="row text-center">
 				<h1 class="p-2 display-5" style="font-weight: bolder;">{{ post.title }}</h1>
@@ -17,26 +20,29 @@
 					<div class="col-md-2 col-1 mx-0 d-flex flex-column align-items-end">
 						<div id="like-counter">
 							{% include 'blogs/likes_htmx.html' %}
-						</div> 
+						</div>
 					</div>
 				</div>
 			</div>
 
 			<hr>
 			<div class="container-fluid card-body">
-				<p class="poppins"> {{ post.content }} </p>
+				<p class="fs-2" style="font-family: 'Poppins'">
+					{{ post.content|linebreaks }}
+				</p>
 			</div>
 			<hr>
 			<div class="container pt-5">
 				<div id="">
 					{% include 'blogs/comments_htmx.html' %}
-				</div> 
+				</div>
 			</div>
 
 			{% if request.user.is_authenticated %}
-			<div class="row pt-3">
+			<div class="row pt-3 pb-3 position-fixed bottom-0 start-50 translate-middle-x" style="z-index: 1000">
 				<div class="col text-center">
-					<button 
+					<button
+						id="like-button"
 						class="btn btn-lg btn-success shadow"
 						hx-get="{% url 'like_post' post.id %}"
 						hx-target="#like-counter"
@@ -49,4 +55,36 @@
 		</div>
 	</div>
 </div>
+<style>
+	@keyframes fadeInOut {
+		0% {
+			opacity: 0;
+			transform: translateY(-20px);
+		}
+
+		10% {
+			opacity: 1;
+			transform: translateY(0);
+		}
+
+		80% {
+			opacity: 1;
+			transform: translateY(0);
+		}
+
+		100% {
+			opacity: 0;
+			transform: translateY(-20px);
+		}
+	}
+
+	.alert-animation {
+		position: fixed;
+		top: 20px;
+		left: 50%;
+		transform: translateX(-50%);
+		z-index: 1000;
+		animation: fadeInOut 5s forwards;
+	}
+</style>
 {% endblock content %}
