@@ -23,10 +23,9 @@ from . import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("accounts/", include("django.contrib.auth.urls")),
-    path("accounts/signup/", views.signup, name="signup"),
-    path("accounts/profile/", views.profile, name="profile"),
-    path("accounts/l`ogged_out", views.logged_out, name="logged_out"),
-    # path('/home', views.home, name='home'),
+    path("", include("django.contrib.auth.urls")),
+    path("register/", views.signup, name="signup"),
+    path("profile/", views.profile, name="profile"),
+    path("logged_out/", views.logged_out, name="logged_out"),
     path("", include("blogs.urls"), name="blog"),
 ] + debug_toolbar_urls()

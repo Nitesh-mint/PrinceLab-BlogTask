@@ -9,7 +9,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)  # Log the user in after successful signup
-            return redirect("blogs/post_list_htmx.html")  # Redirect to a home page or any other page
+            return redirect("blogs/.html")  # Redirect to a home page or any other page
     else:
         form = UserCreationForm()
     return render(request, "registration/signup.html", {"form": form})
